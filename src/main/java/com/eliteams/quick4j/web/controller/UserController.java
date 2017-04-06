@@ -4,6 +4,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+
+import com.eliteams.quick4j.core.util.ApplicationUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -53,6 +55,7 @@ public class UserController {
                 model.addAttribute("error", "参数错误！");
                 return "login";
             }
+            user.setPassword(ApplicationUtils.sha256Hex(user.getPassword()));
             // 身份验证
             subject.login(new UsernamePasswordToken(user.getUsername(), user.getPassword()));
             // 验证成功在Session中保存用户信息
